@@ -16,6 +16,7 @@
 
 package org.jetbrains.kotlin.types.checker
 
+import org.jetbrains.kotlin.resolve.constants.IntegerLiteralTypeConstructor
 import org.jetbrains.kotlin.types.*
 import org.jetbrains.kotlin.types.checker.NewKotlinTypeChecker.transformToNewType
 import org.jetbrains.kotlin.types.model.KotlinTypeMarker
@@ -41,8 +42,10 @@ open class ClassicTypeCheckerContext(val errorTypeEqualsToAnything: Boolean, val
         return areEqualTypeConstructors(a, b)
     }
 
-    open fun areEqualTypeConstructors(a: TypeConstructor, b: TypeConstructor): Boolean {
-        return a == b
+    open fun areEqualTypeConstructors(a: TypeConstructor, b: TypeConstructor): Boolean = when {
+        a is IntegerLiteralTypeConstructor -> a.checkConstructor(b)
+        b is IntegerLiteralTypeConstructor -> b.checkConstructor(a)
+        else -> a == b
     }
 
     override fun substitutionSupertypePolicy(type: SimpleTypeMarker): SupertypesPolicy.DoCustomTransform {

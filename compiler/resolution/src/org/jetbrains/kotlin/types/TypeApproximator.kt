@@ -20,6 +20,7 @@ import org.jetbrains.kotlin.config.LanguageFeature
 import org.jetbrains.kotlin.config.LanguageVersionSettings
 import org.jetbrains.kotlin.resolve.calls.NewCommonSuperTypeCalculator
 import org.jetbrains.kotlin.resolve.calls.inference.model.TypeVariableTypeConstructor
+import org.jetbrains.kotlin.resolve.constants.IntegerLiteralTypeConstructor
 import org.jetbrains.kotlin.types.TypeApproximatorConfiguration.IntersectionStrategy.*
 import org.jetbrains.kotlin.types.checker.*
 import org.jetbrains.kotlin.types.model.CaptureStatus
@@ -312,6 +313,10 @@ class TypeApproximator {
 
         if (typeConstructor is TypeVariableTypeConstructor) {
             return if (conf.typeVariable(typeConstructor)) null else type.defaultResult(toSuper)
+        }
+
+        if (typeConstructor is IntegerLiteralTypeConstructor) {
+            return typeConstructor.getApproximatedType()?.unwrap()?.makeNullableAsSpecified(type.isMarkedNullable)
         }
 
         return null // simple classifier type

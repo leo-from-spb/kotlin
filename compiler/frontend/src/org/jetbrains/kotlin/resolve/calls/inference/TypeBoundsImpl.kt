@@ -20,6 +20,7 @@ import org.jetbrains.kotlin.resolve.calls.inference.TypeBounds.Bound
 import org.jetbrains.kotlin.resolve.calls.inference.TypeBounds.BoundKind
 import org.jetbrains.kotlin.resolve.calls.inference.TypeBounds.BoundKind.*
 import org.jetbrains.kotlin.resolve.calls.inference.constraintPosition.ConstraintPosition
+import org.jetbrains.kotlin.resolve.constants.IntegerLiteralTypeConstructor
 import org.jetbrains.kotlin.resolve.constants.IntegerValueTypeConstructor
 import org.jetbrains.kotlin.types.*
 import org.jetbrains.kotlin.types.checker.KotlinTypeChecker
@@ -151,7 +152,7 @@ class TypeBoundsImpl(override val typeVariable: TypeVariable) : TypeBounds {
         if (typesInBoundsSet.any { KotlinTypeChecker.DEFAULT.equalTypes(it, possibleAnswer) }) return true
 
         // For non-denotable number types only, no valid types are mentioned, so common supertype is valid
-        val numberLowerBounds = filterBounds(bounds, LOWER_BOUND).filter { it.constructor is IntegerValueTypeConstructor }
+        val numberLowerBounds = filterBounds(bounds, LOWER_BOUND).filter { it.constructor is IntegerValueTypeConstructor || it.constructor is IntegerLiteralTypeConstructor }
         val superTypeOfNumberLowerBounds = commonSupertypeForNumberTypes(numberLowerBounds)
         if (possibleAnswer == superTypeOfNumberLowerBounds) return true
 

@@ -18,6 +18,7 @@ import org.jetbrains.kotlin.descriptors.annotations.Annotations;
 import org.jetbrains.kotlin.name.FqName;
 import org.jetbrains.kotlin.name.FqNameUnsafe;
 import org.jetbrains.kotlin.resolve.DescriptorUtils;
+import org.jetbrains.kotlin.resolve.constants.IntegerLiteralTypeConstructor;
 import org.jetbrains.kotlin.resolve.constants.IntegerValueTypeConstructor;
 import org.jetbrains.kotlin.resolve.scopes.MemberScope;
 import org.jetbrains.kotlin.types.checker.KotlinTypeChecker;
@@ -432,6 +433,21 @@ public class TypeUtils {
     }
 
     @NotNull
+    public static KotlinType getDefaultPrimitiveNumberType(@NotNull TypeConstructor numberValueTypeConstructor) {
+        if (numberValueTypeConstructor instanceof IntegerLiteralTypeConstructor) return getDefaultPrimitiveNumberType((IntegerLiteralTypeConstructor)numberValueTypeConstructor);
+        if (numberValueTypeConstructor instanceof IntegerValueTypeConstructor) return getDefaultPrimitiveNumberType((IntegerValueTypeConstructor)numberValueTypeConstructor);
+        throw new IllegalArgumentException();
+    }
+
+    @NotNull
+    public static KotlinType getDefaultPrimitiveNumberType(@NotNull IntegerLiteralTypeConstructor numberValueTypeConstructor) {
+        KotlinType type = numberValueTypeConstructor.getApproximatedType();
+        assert type != null : "Strange number value type constructor: " + numberValueTypeConstructor + ". " +
+                              "Super types doesn't contain double, int or long: " + numberValueTypeConstructor.getPossibleTypes();
+        return type;
+    }
+
+    @NotNull
     public static KotlinType getDefaultPrimitiveNumberType(@NotNull IntegerValueTypeConstructor numberValueTypeConstructor) {
         KotlinType type = getDefaultPrimitiveNumberType(numberValueTypeConstructor.getSupertypes());
         assert type != null : "Strange number value type constructor: " + numberValueTypeConstructor + ". " +
@@ -491,6 +507,22 @@ public class TypeUtils {
             return getDefaultPrimitiveNumberType(numberValueTypeConstructor);
         }
         for (KotlinType primitiveNumberType : numberValueTypeConstructor.getSupertypes()) {
+            if (KotlinTypeChecker.DEFAULT.isSubtypeOf(primitiveNumberType, expectedType)) {
+                return primitiveNumberType;
+            }
+        }
+        return getDefaultPrimitiveNumberType(numberValueTypeConstructor);
+    }
+
+    @NotNull
+    public static KotlinType getPrimitiveNumberType(
+            @NotNull IntegerLiteralTypeConstructor numberValueTypeConstructor,
+            @NotNull KotlinType expectedType
+    ) {
+        if (noExpectedType(expectedType) || KotlinTypeKt.isError(expectedType)) {
+            return getDefaultPrimitiveNumberType(numberValueTypeConstructor);
+        }
+        for (KotlinType primitiveNumberType : numberValueTypeConstructor.getPossibleTypes()) {
             if (KotlinTypeChecker.DEFAULT.isSubtypeOf(primitiveNumberType, expectedType)) {
                 return primitiveNumberType;
             }

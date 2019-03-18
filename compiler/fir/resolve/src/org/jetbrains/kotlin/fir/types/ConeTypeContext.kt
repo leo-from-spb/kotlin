@@ -31,6 +31,15 @@ class ErrorTypeConstructor(reason: String) : TypeConstructorMarker
 interface ConeTypeContext : TypeSystemContext, TypeSystemOptimizationContext {
     val session: FirSession
 
+    override fun TypeConstructorMarker.isIntegerLiteralTypeConstructor(): Boolean {
+        // TODO()
+        return false
+    }
+
+    override fun SimpleTypeMarker.possibleIntegerTypes(): Collection<KotlinTypeMarker> {
+        TODO("not implemented")
+    }
+
     override fun KotlinTypeMarker.asSimpleType(): SimpleTypeMarker? {
         assert(this is ConeKotlinType)
         return this as? ConeLookupTagBasedType
