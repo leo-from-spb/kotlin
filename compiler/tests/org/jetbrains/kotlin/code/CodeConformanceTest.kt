@@ -29,6 +29,8 @@ class CodeConformanceTest : TestCase() {
         private val EXCLUDED_FILES_AND_DIRS = listOf(
                 "android.tests.dependencies",
                 "buildSrc",
+                "node_modules",
+                ".gradle",
                 "core/reflection.jvm/src/kotlin/reflect/jvm/internal/pcollections",
                 "js/js.tests/.gradle",
                 "js/js.translator/testData/node_modules",
@@ -57,6 +59,8 @@ class CodeConformanceTest : TestCase() {
             "dependencies",
             "out",
             "dist",
+            "node_modules",
+            ".gradle",
             "custom-dependencies/android-sdk/build",
             "custom-dependencies/protobuf/protobuf-relocated/build",
             "compiler/tests/org/jetbrains/kotlin/code/CodeConformanceTest.kt",
