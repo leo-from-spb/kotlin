@@ -8,8 +8,11 @@ package org.jetbrains.kotlin.fir.expressions.impl
 import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.fir.FirSession
 import org.jetbrains.kotlin.fir.expressions.FirCallableReferenceAccess
+import org.jetbrains.kotlin.fir.types.FirTypeRef
 
 class FirCallableReferenceAccessImpl(
     session: FirSession,
     psi: PsiElement?
-) : FirAbstractQualifiedAccess(session, psi), FirCallableReferenceAccess
+) : FirAbstractQualifiedAccess(session, psi), FirCallableReferenceAccess {
+    override var typeRef: FirTypeRef? = null
+}

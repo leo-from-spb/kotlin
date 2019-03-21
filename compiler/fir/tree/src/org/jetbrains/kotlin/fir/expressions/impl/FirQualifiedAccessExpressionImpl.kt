@@ -8,9 +8,12 @@ package org.jetbrains.kotlin.fir.expressions.impl
 import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.fir.FirSession
 import org.jetbrains.kotlin.fir.expressions.FirQualifiedAccessExpression
+import org.jetbrains.kotlin.fir.types.FirTypeRef
 
 class FirQualifiedAccessExpressionImpl(
     session: FirSession,
     psi: PsiElement?,
     safe: Boolean = false
-) : FirAbstractQualifiedAccess(session, psi, safe), FirQualifiedAccessExpression
+) : FirAbstractQualifiedAccess(session, psi, safe), FirQualifiedAccessExpression {
+    override var typeRef: FirTypeRef? = null
+}

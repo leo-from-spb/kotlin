@@ -10,12 +10,15 @@ import org.jetbrains.kotlin.fir.FirSession
 import org.jetbrains.kotlin.fir.expressions.FirBlock
 import org.jetbrains.kotlin.fir.expressions.FirStatement
 import org.jetbrains.kotlin.fir.transformSingle
+import org.jetbrains.kotlin.fir.types.FirTypeRef
 import org.jetbrains.kotlin.fir.visitors.FirTransformer
 
 class FirSingleExpressionBlock(
     session: FirSession,
     private var statement: FirStatement
 ) : FirAbstractAnnotatedElement(session, statement.psi), FirBlock {
+    override var typeRef: FirTypeRef? = null
+
     override val statements
         get() = listOf(statement)
 

@@ -9,7 +9,7 @@ import org.jetbrains.kotlin.fir.types.FirTypeRef
 import org.jetbrains.kotlin.fir.visitors.FirVisitor
 
 interface FirClassReferenceExpression : FirExpression {
-    val typeRef: FirTypeRef
+    val classTypeRef: FirTypeRef
 
     override fun <R, D> accept(visitor: FirVisitor<R, D>, data: D): R =
         visitor.visitClassReferenceExpression(this, data)

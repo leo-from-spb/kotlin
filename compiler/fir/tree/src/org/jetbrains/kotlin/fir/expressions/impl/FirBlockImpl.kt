@@ -11,12 +11,15 @@ import org.jetbrains.kotlin.fir.FirSession
 import org.jetbrains.kotlin.fir.expressions.FirBlock
 import org.jetbrains.kotlin.fir.expressions.FirStatement
 import org.jetbrains.kotlin.fir.transformInplace
+import org.jetbrains.kotlin.fir.types.FirTypeRef
 import org.jetbrains.kotlin.fir.visitors.FirTransformer
 
 class FirBlockImpl(
     session: FirSession,
     psi: PsiElement?
 ) : FirAbstractAnnotatedElement(session, psi), FirBlock {
+    override var typeRef: FirTypeRef? = null
+
     override val statements = mutableListOf<FirStatement>()
 
     override fun <D> transformChildren(transformer: FirTransformer<D>, data: D): FirElement {

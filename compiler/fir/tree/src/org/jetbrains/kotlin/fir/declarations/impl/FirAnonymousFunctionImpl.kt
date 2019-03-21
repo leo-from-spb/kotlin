@@ -20,6 +20,8 @@ class FirAnonymousFunctionImpl(
     override var returnTypeRef: FirTypeRef,
     override var receiverTypeRef: FirTypeRef?
 ) : FirAbstractFunction(session, psi), FirAnonymousFunction, FirModifiableFunction {
+    override var typeRef: FirTypeRef? = null
+
     override var label: FirLabel? = null
 
     override fun <D> transformChildren(transformer: FirTransformer<D>, data: D): FirElement {

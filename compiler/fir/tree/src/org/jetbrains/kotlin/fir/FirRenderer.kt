@@ -841,7 +841,7 @@ class FirRenderer(builder: StringBuilder) : FirVisitorVoid() {
         print(operatorCall.operation.operator)
         if (operatorCall is FirTypeOperatorCall) {
             print("/")
-            operatorCall.typeRef.accept(this)
+            operatorCall.conversionTypeRef.accept(this)
         }
         visitCall(operatorCall)
     }
@@ -870,7 +870,7 @@ class FirRenderer(builder: StringBuilder) : FirVisitorVoid() {
         classReferenceExpression.annotations.renderAnnotations()
         print("<getClass>")
         print("(")
-        classReferenceExpression.typeRef.accept(this)
+        classReferenceExpression.classTypeRef.accept(this)
         print(")")
     }
 

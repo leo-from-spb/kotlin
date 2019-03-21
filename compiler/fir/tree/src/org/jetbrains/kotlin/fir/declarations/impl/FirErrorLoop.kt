@@ -11,6 +11,7 @@ import org.jetbrains.kotlin.fir.FirSession
 import org.jetbrains.kotlin.fir.expressions.*
 import org.jetbrains.kotlin.fir.expressions.impl.FirEmptyExpressionBlock
 import org.jetbrains.kotlin.fir.expressions.impl.FirErrorExpressionImpl
+import org.jetbrains.kotlin.fir.types.FirTypeRef
 import org.jetbrains.kotlin.fir.visitors.FirVisitor
 
 class FirErrorLoop(
@@ -18,6 +19,8 @@ class FirErrorLoop(
     psi: PsiElement?,
     override val reason: String
 ) : FirAbstractElement(session, psi), FirErrorExpression, FirLoop {
+    override var typeRef: FirTypeRef? = null
+
     override val annotations: List<FirAnnotationCall> = listOf()
 
     override val condition: FirExpression = FirErrorExpressionImpl(session, psi, reason)

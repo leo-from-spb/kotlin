@@ -13,6 +13,7 @@ import org.jetbrains.kotlin.fir.FirSession
 import org.jetbrains.kotlin.fir.declarations.FirEnumEntry
 import org.jetbrains.kotlin.fir.expressions.FirExpression
 import org.jetbrains.kotlin.fir.symbols.impl.FirClassSymbol
+import org.jetbrains.kotlin.fir.types.FirTypeRef
 import org.jetbrains.kotlin.name.Name
 
 class FirEnumEntryImpl(
@@ -35,5 +36,7 @@ class FirEnumEntryImpl(
     isData = false,
     isInline = false
 ), FirEnumEntry {
+    override var typeRef: FirTypeRef? = null
+
     override val arguments = mutableListOf<FirExpression>()
 }

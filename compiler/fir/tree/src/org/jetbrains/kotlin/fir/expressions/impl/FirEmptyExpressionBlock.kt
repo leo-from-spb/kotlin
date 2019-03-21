@@ -7,9 +7,12 @@ package org.jetbrains.kotlin.fir.expressions.impl
 
 import org.jetbrains.kotlin.fir.FirSession
 import org.jetbrains.kotlin.fir.expressions.FirBlock
+import org.jetbrains.kotlin.fir.types.FirTypeRef
 
 class FirEmptyExpressionBlock(
     session: FirSession
 ) : FirAbstractAnnotatedElement(session, null), FirBlock {
+    override var typeRef: FirTypeRef? = null
+
     override val statements = listOf()
 }

@@ -19,6 +19,8 @@ class FirAnonymousObjectImpl(
     session: FirSession,
     psi: PsiElement?
 ) : FirAbstractAnnotatedDeclaration(session, psi), FirAnonymousObject, FirModifiableClass {
+    override var typeRef: FirTypeRef? = null
+
     override val superTypeRefs = mutableListOf<FirTypeRef>()
 
     override val declarations = mutableListOf<FirDeclaration>()
